@@ -45,7 +45,7 @@ jobs:
             echo "$description"
             echo "EOF"
           } >> $GITHUB_OUTPUT
-      - name: Validate version in litematic to sandmatic.csproj
+      - name: Validate version in RoundsWithFriends.cs
         if: steps.extract_version.outputs.is_release == 'true'
         run: |
           expected_version="${{ steps.extract_version.outputs.version }}" # e.g., v1.0.0
