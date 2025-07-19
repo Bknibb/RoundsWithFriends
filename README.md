@@ -25,7 +25,7 @@ See [CHANGELOG.md](https://github.com/olavim/RoundsWithFriends/blob/main/CHANGEL
 ## Dependencies
 
 - [BepInEx](https://docs.bepinex.dev/master/articles/index.html) plugin framework
-- [UnboundLib](https://github.com/Rounds-Modding/UnboundLib) version **>=2.11.0**
+- [UnboundLib](https://github.com/Bknibb/UnboundLib) version **>=4.0.0**
 
 ## Manual Installation
 
