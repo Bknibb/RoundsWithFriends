@@ -2,6 +2,8 @@
  
 A [ROUNDS](https://landfall.se/rounds) mod to extend the game's multiplayer capabilities, built for [BepInEx](https://github.com/BepInEx/BepInEx).
 
+This fork adds compatibility for game version v1.1.2 and depends on my fork of [UnboundLib](https://github.com/Bknibb/UnboundLib)
+
 ## Current Features
 
 The mod supports up to 16 players in local and private online lobbies.
