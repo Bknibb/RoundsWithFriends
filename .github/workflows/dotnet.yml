@@ -4,10 +4,7 @@
 name: .NET
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  push
 
 jobs:
   detect:
@@ -85,7 +82,7 @@ jobs:
         name: build win-x64
         path: ./bin/Debug/net8.0-windows/win-x64/RoundsWithFriends.dll
     - name: Release
-      if: needs.detect.outputs.is_release == 'true'
+      if: needs.detect.outputs.is_release == 'true' && github.ref == 'refs/heads/master'
       uses: softprops/action-gh-release@v2
       with:
         token: '${{ secrets.GITHUB_TOKEN }}'
