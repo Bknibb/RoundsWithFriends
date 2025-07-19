@@ -249,9 +249,10 @@ namespace RWF
 					fill.fillAmount = (float)teamPoints[i]  / (int)GameModeManager.CurrentHandler.Settings["pointsToWinRound"];
 				}
 			}
-
-			instance.text.color = PlayerSkinBank.GetPlayerSkinColors(PlayerManager.instance.GetPlayersInTeam(winnerTeamID)[0].colorID()).winText;
-			instance.text.text = $"POINT TO {(GameModeManager.CurrentHandler.AllowTeams ? "TEAM " : "")}{ExtraPlayerSkins.GetTeamColorName(PlayerManager.instance.GetPlayersInTeam(winnerTeamID)[0].colorID()).ToUpper()}";
+            
+            UILocalizedString instanceUILocalizedString = (UILocalizedString)instance.GetFieldValue("m_localizedText");
+            instanceUILocalizedString.Text.color = PlayerSkinBank.GetPlayerSkinColors(PlayerManager.instance.GetPlayersInTeam(winnerTeamID)[0].colorID()).winText;
+            instanceUILocalizedString.Text.text = $"POINT TO {(GameModeManager.CurrentHandler.AllowTeams ? "TEAM " : "")}{ExtraPlayerSkins.GetTeamColorName(PlayerManager.instance.GetPlayersInTeam(winnerTeamID)[0].colorID()).ToUpper()}";
 		}
 
         // Overload for the existing DoWinSequence method to support more than two winners, or no winners
@@ -465,9 +466,11 @@ namespace RWF
 
             float fontSize = winnerTeamIDs.Count() > 2 ? 100f / (winnerTeamIDs.Count() - 1) : 100f;
 
-            instance.text.color = color;
-            instance.text.text = text;
-            instance.text.fontSize = fontSize;
+            UILocalizedString instanceUILocalizedString = (UILocalizedString) instance.GetFieldValue("m_localizedText");
+
+            instanceUILocalizedString.Text.color = color;
+            instanceUILocalizedString.Text.text = text;
+            instanceUILocalizedString.Text.fontSize = fontSize;
         }
     }
 }

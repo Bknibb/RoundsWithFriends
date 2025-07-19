@@ -7,7 +7,7 @@
     <RootNamespace>RWF</RootNamespace>
     <AssemblyName>RoundsWithFriends</AssemblyName>
     <Authors>olavim</Authors>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
@@ -29,10 +29,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <RoundsFolder>C:\Program Files (x86)\Steam\steamapps\common\ROUNDS</RoundsFolder>
+    <RoundsFolder>D:\Games\steamapps\common\ROUNDS</RoundsFolder>
     <IndirectBuildTask>true</IndirectBuildTask>
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
     <LangVersion>7.1</LangVersion>
+    <AutoGenerateBindingRedirects>False</AutoGenerateBindingRedirects>
   </PropertyGroup>
 
   <ItemGroup>
@@ -44,15 +45,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="UnboundLib" Version="2.11.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>..\Assemblies\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="BepInEx">
       <HintPath>..\Assemblies\BepInEx.dll</HintPath>
+    </Reference>
+	<Reference Include="UnboundLib">
+      <HintPath>..\Assemblies\UnboundLib.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>$(RoundsFolder)\Rounds_Data\Managed\Assembly-CSharp.dll</HintPath>
@@ -120,6 +120,15 @@
     <Reference Include="UnityEngine.VideoModule">
       <HintPath>$(RoundsFolder)\Rounds_Data\Managed\UnityEngine.VideoModule.dll</HintPath>
     </Reference>
+	<Reference Include="Unity.Localization">
+		<HintPath>$(RoundsFolder)\Rounds_Data\Managed\Unity.Localization.dll</HintPath>
+	</Reference>
+	<Reference Include="UnityEngine.InputLegacyModule">
+		<HintPath>$(RoundsFolder)\Rounds_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+	</Reference>
+	<Reference Include="com.rlabrecque.steamworks.net">
+		<HintPath>$(RoundsFolder)\Rounds_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
+	</Reference>
   </ItemGroup>
 
   <Target Name="ReadPackageVersionFromOutputAssembly" DependsOnTargets="Build" Outputs="$(PackageVersion)">

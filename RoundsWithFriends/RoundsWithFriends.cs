@@ -56,14 +56,14 @@ namespace RWF
         public bool showSpawns = false;
     }
 
-    [BepInDependency("com.willis.rounds.unbound", "2.10.2")]
+    [BepInDependency("com.willis.rounds.unbound", "4.0.0")]
     [BepInPlugin(ModId, "RoundsWithFriends", Version)]
     public class RWFMod : BaseUnityPlugin
     {
         private const string ModName = "Rounds With Friends";
         private static string CompatibilityModName => RWFMod.ModName.Replace(" ", "");
         private const string ModId = "io.olavim.rounds.rwf";
-        public const string Version = "2.2.2";
+        public const string Version = "3.0.0";
 
 #if DEBUG
         public static readonly bool DEBUG = true;
@@ -233,8 +233,8 @@ namespace RWF
             GameModeManager.AddHook(GameModeHooks.HookInitEnd, this.OnGameModeInitialized);
             GameModeManager.AddHook(GameModeHooks.HookGameStart, this.UnsetFaces);
             GameModeManager.AddHook(GameModeHooks.HookPickStart, this.SetPlayerFaces);
-            GameModeManager.AddHook(GameModeHooks.HookGameStart, gm => PlayerSpotlight.CancelFadeHook(true));
-            GameModeManager.AddHook(GameModeHooks.HookBattleStart, gm => PlayerSpotlight.BattleStartFailsafe());
+            //GameModeManager.AddHook(GameModeHooks.HookGameStart, gm => PlayerSpotlight.CancelFadeHook(true));
+            //GameModeManager.AddHook(GameModeHooks.HookBattleStart, gm => PlayerSpotlight.BattleStartFailsafe());
 
             this.gameObject.AddComponent<RoundEndHandler>();
 

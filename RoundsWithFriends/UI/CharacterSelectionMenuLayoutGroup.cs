@@ -61,8 +61,8 @@ namespace RWF.UI
 
         public void PlayerJoined(Player joinedPlayer)
         {
-            this.transform.GetChild(joinedPlayer.playerID).transform.position = away;
-            this.transform.GetChild(joinedPlayer.playerID).gameObject.SetActive(true);
+            this.transform.GetChild(joinedPlayer.PlayerID).transform.position = away;
+            this.transform.GetChild(joinedPlayer.PlayerID).gameObject.SetActive(true);
         }
 
         List<Vector2> CalculatePositions(int n)

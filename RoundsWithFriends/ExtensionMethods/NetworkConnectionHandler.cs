@@ -11,19 +11,19 @@ namespace RWF
     public static class NetworkConnectionHandlerExtensions
     {
         public static void SetSearchingQuickMatch(this NetworkConnectionHandler instance, bool value) {
-            instance.SetFieldValue("m_SearchingQuickMatch", value);
+            instance.SetFieldValue("m_searchingType", value ? 1 : 0);
         }
 
         public static bool IsSearchingQuickMatch(this NetworkConnectionHandler instance) {
-            return (bool)instance.GetFieldValue("m_SearchingQuickMatch");
+            return (int)instance.GetFieldValue("m_searchingType") == 1;
         }
 
         public static void SetSearchingTwitch(this NetworkConnectionHandler instance, bool value) {
-            instance.SetFieldValue("m_SearchingTwitch", value);
+            instance.SetFieldValue("m_searchingType", value ? 4 : 0);
         }
 
         public static bool IsSearchingTwitch(this NetworkConnectionHandler instance) {
-            return (bool) instance.GetFieldValue("m_SearchingTwitch");
+            return (int) instance.GetFieldValue("m_searchingType") == 4;
         }
 
         public static void SetForceRegion(this NetworkConnectionHandler instance, bool value) {

@@ -59,14 +59,14 @@ namespace RWF.GameModes
         public override void PlayerLeft(Player leftPlayer)
         {
             // store old teamIDs so that we can make a dictionary of old to new teamIDs
-            Dictionary<Player, int> oldTeamIDs = PlayerManager.instance.players.ToDictionary(p => p, p => p.teamID);
+            Dictionary<Player, int> oldTeamIDs = PlayerManager.instance.players.ToDictionary(p => p, p => p.TeamID);
 
             // UnboundLib handles PlayerManager fixing, which includes reassigning playerIDs and teamIDs
             // as well as card bar fixing
             base.PlayerLeft(leftPlayer);
 
             // get new teamIDs
-            Dictionary<Player, int> newTeamIDs = PlayerManager.instance.players.ToDictionary(p => p, p => p.teamID);
+            Dictionary<Player, int> newTeamIDs = PlayerManager.instance.players.ToDictionary(p => p, p => p.TeamID);
 
             // update team scores
             Dictionary<int, int> newTeamPoints = new Dictionary<int, int>() { };

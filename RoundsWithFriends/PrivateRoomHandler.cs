@@ -412,7 +412,7 @@ namespace RWF
 
             mainPageGo.AddComponent<RectTransform>();
             this.MainPage = mainPageGo.AddComponent<ListMenuPage>();
-            this.MainPage.firstSelected = inviteListButton;
+            this.MainPage.SetFieldValue("firstSelected", inviteListButton);
             this.MainPage.Close();
         }
 
@@ -891,7 +891,7 @@ namespace RWF
         [UnboundRPC]
         public static void StartGame()
         {
-            UIHandler.instance.ShowJoinGameText("LETS GOO!", PlayerSkinBank.GetPlayerSkinColors(1).winText);
+            UIHandler.instance.ShowJoinGameText(new UnityEngine.Localization.LocalizedString(null, "LETS GOO!"), PlayerSkinBank.GetPlayerSkinColors(1).winText);
             
             // return Canvas to its original position
             PrivateRoomHandler.instance.gameObject.GetComponentInParent<Canvas>().sortingLayerName = "MostFront";

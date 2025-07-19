@@ -26,7 +26,7 @@ namespace RWF
                 newBarGo.transform.localScale = Vector3.one;
                 newBarGo.transform.localPosition = barGo.transform.localPosition + new Vector3(0, deltaY * i, 0);
 
-                var player = PlayerManager.instance.players.Find(p => p.playerID == i);
+                var player = PlayerManager.instance.players.Find(p => p.PlayerID == i);
                 var teamColor = PlayerSkinBank.GetPlayerSkinColors(player.colorID()).backgroundColor;
                 newBarGo.transform.GetChild(0).GetChild(0).gameObject.GetComponent<ProceduralImage>().color = new Color(teamColor.r, teamColor.g, teamColor.b, 0.9f);
 

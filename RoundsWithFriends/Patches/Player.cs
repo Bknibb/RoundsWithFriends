@@ -45,7 +45,7 @@ namespace RWF.Patches
         {
             if (__instance.data.view.IsMine)
             {
-                PlayerSpotlight.AddSpotToPlayer(__instance);
+                //PlayerSpotlight.AddSpotToPlayer(__instance);
             }
         }
     }
@@ -83,12 +83,12 @@ namespace RWF.Patches
     {
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
             // Somewhy the AssignTeamID method assigns playerID to teamID when player joins a room the second time
-            var f_playerID = UnboundLib.ExtensionMethods.GetFieldInfo(typeof(Player), "playerID");
+            var f_playerID = ExtensionMethods.GetPropertyInfo(typeof(Player), "PlayerID").GetMethod;
             var f_teamID = UnboundLib.ExtensionMethods.GetFieldInfo(typeof(Player), "teamID");
 
             foreach (var ins in instructions) {
-                if (ins.LoadsField(f_playerID)) {
-                    // Instead of `this.teamID = playerID`, we obviously want `this.teamID = teamID`
+                if (ins.Calls(f_playerID)) {
+                    // Instead of `this.TeamID = playerID`, we obviously want `this.TeamID = teamID`
                     ins.operand = f_teamID;
                 }
 

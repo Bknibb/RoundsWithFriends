@@ -28,12 +28,12 @@ namespace RWF
         private IEnumerator OnRoundEnd(IGameModeHandler gm)
         {
             int maxRounds = (int) gm.Settings["roundsToWinGame"];
-            var teams = PlayerManager.instance.players.Select(p => p.teamID).Distinct();
+            var teams = PlayerManager.instance.players.Select(p => p.TeamID).Distinct();
             int? winnerTeam = teams.Select(id => (int?) id).FirstOrDefault(id => gm.GetTeamScore(id.Value).rounds >= maxRounds);
 
             if (winnerTeam != null)
             {
-                UIHandler.instance.DisplayScreenText(PlayerManager.instance.GetColorFromTeam(winnerTeam.Value).winText, "VICTORY!", 1f);
+                UIHandler.instance.DisplayScreenText(PlayerManager.instance.GetColorFromTeam(winnerTeam.Value).winText, new UnityEngine.Localization.LocalizedString(null, "VICTORY!"), 1f);
 
                 yield return new WaitForSeconds(2f);
 
@@ -50,7 +50,7 @@ namespace RWF
                 else
                 {
                     string hostName = PhotonNetwork.CurrentRoom.Players.Values.First(p => p.IsMasterClient).NickName;
-                    UIHandler.instance.ShowJoinGameText($"WAITING FOR {hostName}", PlayerSkinBank.GetPlayerSkinColors(1).winText);
+                    UIHandler.instance.ShowJoinGameText(new UnityEngine.Localization.LocalizedString(null, $"WAITING FOR {hostName}"), PlayerSkinBank.GetPlayerSkinColors(1).winText);
                 }
 
                 MapManager.instance.LoadNextLevel(false, false);

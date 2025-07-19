@@ -75,7 +75,7 @@ namespace RWF
             float num = float.MaxValue;
 
             var alivePlayersInOtherTeam = instance.players
-                .Where(p => p.teamID != team)
+                .Where(p => p.TeamID != team)
                 .Where(p => !p.data.dead)
                 .ToList();
 

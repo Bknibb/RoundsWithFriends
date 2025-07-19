@@ -52,9 +52,9 @@ namespace RWF.UI
         {
             if (this.characterSelectionInstance == null) { return; }
 
-            if (this.characterSelectionInstance.isReady != this.isReady)
+            if ((bool)this.characterSelectionInstance.GetFieldValue("isReady") != this.isReady)
             {
-                this.isReady = this.characterSelectionInstance.isReady;
+                this.isReady = (bool) this.characterSelectionInstance.GetFieldValue("isReady");
                 if (this.isReady)
                 {
                     this.text.color = CharacterSelectButton.disabledColor;

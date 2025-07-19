@@ -52,7 +52,7 @@ namespace RWF.Patches
             int numPlayers = 0;
 
             for (int i = 0; i < ___selectors.Length; i++) {
-                if (___selectors[i].isReady) {
+                if ((bool)___selectors[i].GetFieldValue("isReady")) {
                     numReady++;
                 }
                 if (___selectors[i].currentPlayer) {
@@ -93,18 +93,18 @@ namespace RWF.Patches
             __instance.getReadyObj.GetComponent<TextMeshProUGUI>().text = "";
             for (int i = 0; i< ___buttons.Length; i++)
             {
-                ___buttons[i].transform.GetChild(4).GetChild(0).gameObject.SetActive(__instance.isReady);
-                ___buttons[i].transform.GetChild(4).GetChild(1).gameObject.SetActive(__instance.isReady);
+                ___buttons[i].transform.GetChild(4).GetChild(0).gameObject.SetActive((bool) __instance.GetFieldValue("isReady"));
+                ___buttons[i].transform.GetChild(4).GetChild(1).gameObject.SetActive((bool) __instance.GetFieldValue("isReady"));
                 foreach (Graphic graphic in ___buttons[i].transform.GetChild(4).GetChild(0).GetComponentsInChildren<Graphic>(true))
                 {
-                    graphic.color = __instance.isReady ? Colors.Transparent(Colors.readycolor) : Color.clear;
+                    graphic.color = (bool) __instance.GetFieldValue("isReady") ? Colors.Transparent(Colors.readycolor) : Color.clear;
                 }
                 foreach (Graphic graphic in ___buttons[i].transform.GetChild(4).GetChild(1).GetComponentsInChildren<Graphic>(true))
                 {
-                    graphic.color = __instance.isReady ? Colors.Transparent(Colors.readycolor) : Color.clear;
+                    graphic.color = (bool) __instance.GetFieldValue("isReady") ? Colors.Transparent(Colors.readycolor) : Color.clear;
                 }
-                ___buttons[i].transform.GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = __instance.isReady ? "READY" : $"{(GameModeManager.CurrentHandler.AllowTeams ? "TEAM " : "")}{ExtraPlayerSkins.GetTeamColorName(__instance.currentPlayer.colorID()).ToUpper()}";
-                ___buttons[i].transform.GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().color = __instance.isReady ? Colors.readycolor : Colors.joinedcolor;
+                ___buttons[i].transform.GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().text = (bool) __instance.GetFieldValue("isReady") ? "READY" : $"{(GameModeManager.CurrentHandler.AllowTeams ? "TEAM " : "")}{ExtraPlayerSkins.GetTeamColorName(__instance.currentPlayer.colorID()).ToUpper()}";
+                ___buttons[i].transform.GetChild(4).GetChild(2).GetComponent<TextMeshProUGUI>().color = (bool) __instance.GetFieldValue("isReady") ? Colors.readycolor : Colors.joinedcolor;
             }
         }
     }
@@ -116,7 +116,7 @@ namespace RWF.Patches
         static bool Prefix(CharacterSelectionInstance __instance, Player pickingPlayer, ref HoverEvent[] ___buttons, ref HoverEvent ___currentButton, ref float ___counter)
         {
             __instance.currentPlayer = pickingPlayer;
-            __instance.currentlySelectedFace = PlayerPrefs.GetInt("SelectedFace" + pickingPlayer.playerID);
+            __instance.currentlySelectedFace = PlayerPrefs.GetInt("SelectedFace" + pickingPlayer.PlayerID);
             try
             {
                 __instance.GetComponentInChildren<GeneralParticleSystem>(true).gameObject.SetActive(false);
@@ -259,13 +259,13 @@ namespace RWF.Patches
                 // change team
                 if (__instance.currentPlayer.data.playerActions.GetAdditionalData().increaseColorID.WasPressed)
                 {
-                    //newTeamID = UnityEngine.Mathf.Clamp(__instance.currentPlayer.teamID + 1, 0, RWFMod.MaxTeamsHardLimit - 1);
+                    //newTeamID = UnityEngine.Mathf.Clamp(__instance.currentPlayer.TeamID + 1, 0, RWFMod.MaxTeamsHardLimit - 1);
                     colorIDDelta = +1;
                     colorChanged = true;
                 }
                 else if (__instance.currentPlayer.data.playerActions.GetAdditionalData().decreaseColorID.WasPressed)
                 {
-                    //newTeamID = UnityEngine.Mathf.Clamp(__instance.currentPlayer.teamID - 1, 0, RWFMod.MaxTeamsHardLimit - 1);
+                    //newTeamID = UnityEngine.Mathf.Clamp(__instance.currentPlayer.TeamID - 1, 0, RWFMod.MaxTeamsHardLimit - 1);
                     colorIDDelta = -1;
                     colorChanged = true;
                 }
@@ -290,7 +290,7 @@ namespace RWF.Patches
                     if (!fail)
                     {
                         // update player preferences
-                        PlayerPrefs.SetInt(RWFMod.GetCustomPropertyKey("PreferredColor" + __instance.currentPlayer.playerID.ToString()), newColorID);
+                        PlayerPrefs.SetInt(RWFMod.GetCustomPropertyKey("PreferredColor" + __instance.currentPlayer.PlayerID.ToString()), newColorID);
 
                         __instance.currentPlayer.AssignColorID(newColorID);
                         __instance.currentPlayer.SetColors();

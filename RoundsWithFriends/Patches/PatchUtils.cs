@@ -30,7 +30,7 @@ namespace RWF.Patches
 
         public static int NextPlayerID() {
             for (int i = 0; i < RWFMod.instance.MaxPlayers; i++) {
-                var player = PlayerManager.instance.players.Find(p => p.playerID == i);
+                var player = PlayerManager.instance.players.Find(p => p.PlayerID == i);
                 if (player == null) {
                     return i;
                 }

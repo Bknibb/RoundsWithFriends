@@ -23,13 +23,13 @@ namespace RWF.Algorithms
 
         public void AddPlayer(Player player)
         {
-            if (!this.playerOrders.ContainsKey(player.teamID))
+            if (!this.playerOrders.ContainsKey(player.TeamID))
             {
-                this.playerOrders.Add(player.teamID, new List<Player>());
-                this.teamOrder.Add(player.teamID);
+                this.playerOrders.Add(player.TeamID, new List<Player>());
+                this.teamOrder.Add(player.TeamID);
             }
 
-            this.playerOrders[player.teamID].Add(player);
+            this.playerOrders[player.TeamID].Add(player);
         }
 
         public void RefreshOrder(int[] winningTeamIDs)

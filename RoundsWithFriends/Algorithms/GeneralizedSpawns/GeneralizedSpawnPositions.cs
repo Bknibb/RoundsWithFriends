@@ -29,7 +29,7 @@ namespace RWF.Algorithms
         private static readonly LayerMask groundMask = (LayerMask) LayerMask.GetMask(new string[] { "Default", "IgnorePlayer", "IgnoreMap" });
 
         private static int NumberOfTeams => TeamIDs.Count();
-        private static int[] TeamIDs => PlayerManager.instance.players.Select(p => p.teamID).Distinct().ToArray();
+        private static int[] TeamIDs => PlayerManager.instance.players.Select(p => p.TeamID).Distinct().ToArray();
         private static System.Random rng = new System.Random();
 
         private static int RandomRange(int l, int u)

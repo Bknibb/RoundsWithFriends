@@ -9,6 +9,7 @@ using UnboundLib.Networking;
 using UnboundLib.GameModes;
 using Sonigon;
 using RWF.UI;
+using UnityEngine.Localization.Tables;
 
 namespace RWF.GameModes
 {
@@ -138,8 +139,8 @@ namespace RWF.GameModes
 
         public virtual void PlayerJoined(Player player)
         {
-            if (!this.teamPoints.ContainsKey(player.teamID)) { this.teamPoints.Add(player.teamID, 0); }
-            if (!this.teamRounds.ContainsKey(player.teamID)) { this.teamRounds.Add(player.teamID, 0); }
+            if (!this.teamPoints.ContainsKey(player.TeamID)) { this.teamPoints.Add(player.TeamID, 0); }
+            if (!this.teamRounds.ContainsKey(player.TeamID)) { this.teamRounds.Add(player.TeamID, 0); }
         }
 
         public virtual void PlayerDied(Player killedPlayer, int teamsAlive)
@@ -153,7 +154,7 @@ namespace RWF.GameModes
                     NetworkingManager.RPC(
                         typeof(RWFGameMode),
                         nameof(RWFGameMode.RPCA_NextRound),
-                        new int[] { PlayerManager.instance.GetLastPlayerAlive().teamID },
+                        new int[] { PlayerManager.instance.GetLastPlayerAlive().TeamID },
                         this.teamPoints,
                         this.teamRounds
                     );
@@ -197,11 +198,11 @@ namespace RWF.GameModes
 
             GameManager.instance.battleOngoing = false;
 
-            UIHandler.instance.ShowJoinGameText("LETS GOO!", PlayerSkinBank.GetPlayerSkinColors(1).winText);
+            UIHandler.instance.ShowJoinGameText(new UnityEngine.Localization.LocalizedString(null, "LETS GOO!"), PlayerSkinBank.GetPlayerSkinColors(1).winText);
             yield return new WaitForSecondsRealtime(0.25f);
             UIHandler.instance.HideJoinGameText();
 
-            PlayerSpotlight.CancelFade(true);
+            //PlayerSpotlight.CancelFade(true);
 
             PlayerManager.instance.SetPlayersSimulated(false);
             PlayerManager.instance.InvokeMethod("SetPlayersVisible", false);
@@ -219,8 +220,8 @@ namespace RWF.GameModes
 
                 yield return GameModeManager.TriggerHook(GameModeHooks.HookPlayerPickStart);
 
-                CardChoiceVisuals.instance.Show(player.playerID, true);
-                yield return CardChoice.instance.DoPick(1, player.playerID, PickerType.Player);
+                CardChoiceVisuals.instance.Show(player.PlayerID, true);
+                yield return CardChoice.instance.DoPick(1, player.PlayerID, PickerType.Player);
 
                 yield return GameModeManager.TriggerHook(GameModeHooks.HookPlayerPickEnd);
 
@@ -232,7 +233,7 @@ namespace RWF.GameModes
 
             yield return GameModeManager.TriggerHook(GameModeHooks.HookPickEnd);
 
-            PlayerSpotlight.FadeIn();
+            //PlayerSpotlight.FadeIn();
             MapManager.instance.CallInNewMapAndMovePlayers(MapManager.instance.currentLevelID);
             TimeHandler.instance.DoSpeedUp();
             TimeHandler.instance.StartGame();
@@ -276,14 +277,14 @@ namespace RWF.GameModes
 
             foreach (Player player in pickOrder)
             {
-                if (!winningTeamIDs.Contains(player.teamID))
+                if (!winningTeamIDs.Contains(player.TeamID))
                 {
                     yield return this.WaitForSyncUp();
 
                     yield return GameModeManager.TriggerHook(GameModeHooks.HookPlayerPickStart);
 
-                    CardChoiceVisuals.instance.Show(player.playerID, true);
-                    yield return CardChoice.instance.DoPick(1, player.playerID, PickerType.Player);
+                    CardChoiceVisuals.instance.Show(player.PlayerID, true);
+                    yield return CardChoice.instance.DoPick(1, player.PlayerID, PickerType.Player);
 
                     yield return GameModeManager.TriggerHook(GameModeHooks.HookPlayerPickEnd);
 
@@ -296,7 +297,7 @@ namespace RWF.GameModes
             yield return GameModeManager.TriggerHook(GameModeHooks.HookPickEnd);
 
             yield return this.StartCoroutine(this.WaitForSyncUp());
-            PlayerSpotlight.FadeIn();
+            //PlayerSpotlight.FadeIn();
 
             TimeHandler.instance.DoSlowDown();
             MapManager.instance.CallInNewMapAndMovePlayers(MapManager.instance.currentLevelID);
@@ -327,7 +328,7 @@ namespace RWF.GameModes
 
             yield return new WaitForSecondsRealtime(0.5f);
             yield return this.WaitForSyncUp();
-            PlayerSpotlight.FadeIn();
+            //PlayerSpotlight.FadeIn();
 
             MapManager.instance.CallInNewMapAndMovePlayers(MapManager.instance.currentLevelID);
             PlayerManager.instance.RevivePlayers();
@@ -352,7 +353,7 @@ namespace RWF.GameModes
 
             //PlayerManager.instance.SetPlayersSimulated(false);
             yield return this.WaitForSyncUp();
-            PlayerSpotlight.FadeOut();
+            //PlayerSpotlight.FadeOut();
 
             yield return GameModeManager.TriggerHook(GameModeHooks.HookRoundStart);
             yield return GameModeManager.TriggerHook(GameModeHooks.HookPointStart);
@@ -391,7 +392,7 @@ namespace RWF.GameModes
 
             //PlayerManager.instance.SetPlayersSimulated(false);
             yield return this.WaitForSyncUp();
-            PlayerSpotlight.FadeOut();
+            //PlayerSpotlight.FadeOut();
 
             yield return GameModeManager.TriggerHook(GameModeHooks.HookPointStart);
 
@@ -457,7 +458,7 @@ namespace RWF.GameModes
             UIHandler.instance.ShowRoundCounterSmall(this.teamPoints, this.teamRounds);
             List<Color> colors = winningTeamIDs.Select(tID => PlayerManager.instance.GetPlayersInTeam(tID).First().GetTeamColors().color).ToList();
             Color color = AverageColor.Average(colors);
-            UIHandler.instance.DisplayScreenText(color, "VICTORY!", 1f);
+            UIHandler.instance.DisplayScreenText(color, new UnityEngine.Localization.LocalizedString(null, "VICTORY!"), 1f);
             yield return new WaitForSecondsRealtime(2f);
             this.GameOverRematch(winningTeamIDs);
             yield break;
@@ -471,8 +472,8 @@ namespace RWF.GameModes
         {
             if (PhotonNetwork.OfflineMode)
             {
-                var winningPlayer = PlayerManager.instance.players.Find(p => winningTeamIDs.Contains(p.playerID));
-                UIHandler.instance.DisplayScreenTextLoop(winningPlayer.GetTeamColors().winText, "REMATCH?");
+                var winningPlayer = PlayerManager.instance.players.Find(p => winningTeamIDs.Contains(p.PlayerID));
+                UIHandler.instance.DisplayScreenTextLoop(winningPlayer.GetTeamColors().winText, new UnityEngine.Localization.LocalizedString(null, "REMATCH?"));
                 UIHandler.instance.popUpHandler.StartPicking(winningPlayer, this.GetRematchYesNo);
                 MapManager.instance.LoadNextLevel(false, false);
                 return;
@@ -513,8 +514,8 @@ namespace RWF.GameModes
 
             foreach (var player in PlayerManager.instance.players)
             {
-                this.teamPoints[player.teamID] = 0;
-                this.teamRounds[player.teamID] = 0;
+                this.teamPoints[player.TeamID] = 0;
+                this.teamRounds[player.TeamID] = 0;
             }
 
             this.isTransitioning = false;

@@ -1,10 +1,11 @@
 ﻿using HarmonyLib;
 using System;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace RWF.Patches
 {
-    [HarmonyPatch(typeof(UIHandler), "DisplayScreenTextLoop", new Type[] { typeof(Color), typeof(string) })]
+    [HarmonyPatch(typeof(UIHandler), "DisplayScreenTextLoop", new Type[] { typeof(Color), typeof(LocalizedString) })]
     class UIHandler_Patch_DisplayScreenTextLoop1
     {
         static bool Prefix(UIHandler __instance) {
@@ -12,7 +13,7 @@ namespace RWF.Patches
         }
     }
 
-    [HarmonyPatch(typeof(UIHandler), "DisplayScreenTextLoop", new Type[] { typeof(string) })]
+    [HarmonyPatch(typeof(UIHandler), "DisplayScreenTextLoop", new Type[] { typeof(LocalizedString) })]
     class UIHandler_Patch_DisplayScreenTextLoop2
     {
         static bool Prefix(UIHandler __instance)
