@@ -63,7 +63,7 @@ namespace RWF
         private const string ModName = "Rounds With Friends";
         private static string CompatibilityModName => RWFMod.ModName.Replace(" ", "");
         private const string ModId = "io.olavim.rounds.rwf";
-        public const string Version = "3.0.0";
+        public const string Version = "3.0.1";
 
 #if DEBUG
         public static readonly bool DEBUG = true;
@@ -198,10 +198,12 @@ namespace RWF
         public void Start()
         {
             // register credits with unbound
-            Unbound.RegisterCredits(RWFMod.ModName, new string[] { "Tilastokeskus (Project creation, 4 player support, Deathmatch, Team Deathmatch, UI, Fair pick orders)", "Pykess (> 4 player support, multiple players per client, additional player colors, disconnect handling, UI)", "BossSloth (Gamemode selection UI)" }, new string[] { "github", "Support Tilastokeskus", "Support Pykess", "Support BossSloth" }, new string[] { "https://github.com/olavim/RoundsWithFriends", "https://www.buymeacoffee.com/tilastokeskus", "https://ko-fi.com/pykess", "https://www.buymeacoffee.com/BossSloth" });
+            Unbound.RegisterCredits(RWFMod.ModName, new string[] { "Tilastokeskus (Project creation, 4 player support, Deathmatch, Team Deathmatch, UI, Fair pick orders)", "Pykess (> 4 player support, multiple players per client, additional player colors, disconnect handling, UI)", "BossSloth (Gamemode selection UI)", "Bknibb (Update to ROUNDS v1.1.2)" }, new string[] { "github", "Support Tilastokeskus", "Support Pykess", "Support BossSloth" }, new string[] { "https://github.com/Bknibb/RoundsWithFriends", "https://www.buymeacoffee.com/tilastokeskus", "https://ko-fi.com/pykess", "https://www.buymeacoffee.com/BossSloth" });
 
             // add GUI to modoptions menu
             Unbound.RegisterMenu(RWFMod.ModName, () => { }, this.GUI, null, false);
+
+            Unbound.RegisterUpdateChecker(RWFMod.ModName, Version, "Bknibb", "RoundsWithFriends");
 
             this.soundEnabled = new Dictionary<string, bool>();
             this.gmInitialized = new Dictionary<string, bool>();
