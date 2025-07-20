@@ -1,10 +1,11 @@
-﻿using System.Reflection;
-using System.Collections;
-using System;
-using Photon.Realtime;
+﻿using HarmonyLib;
 using Landfall.Network;
+using Photon.Pun;
+using Photon.Realtime;
+using System;
+using System.Collections;
+using System.Reflection;
 using UnboundLib;
-using HarmonyLib;
 
 namespace RWF
 {
@@ -39,8 +40,23 @@ namespace RWF
             options.MaxPlayers = (byte) RWFMod.instance.MaxPlayers;
             options.IsOpen = true;
             options.IsVisible = false;
-
-            Action createRoomFn = () => instance.InvokeMethod("CreateRoom", options);
+            options.CustomRoomPropertiesForLobby = new string[] { NetworkConnectionHandler.ROOM_CODE };
+		    
+            Action createRoomFn = () =>
+            {
+                string text = string.Empty;
+                text += NetworkConnectionHandler.RegionToCode(PhotonNetwork.CloudRegion).ToString();
+                text += instance.InvokeMethod("CreateRandomName", new object[] { 5, true} );
+                options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {
+                    {
+                        NetworkConnectionHandler.ROOM_CODE,
+                        text
+                    }
+                };
+                TypedLobby LOBBY_ROOMCODE = (TypedLobby)ExtensionMethods.GetStaticFieldValue(typeof(NetworkConnectionHandler), "LOBBY_ROOMCODE");
+                PhotonNetwork.CreateRoom(text, options, LOBBY_ROOMCODE, null);
+                LoadingScreen.instance.SetRoomCode(text);
+            };
             instance.StartCoroutine((IEnumerator) instance.InvokeMethod("DoActionWhenConnected", createRoomFn));
         }
     }

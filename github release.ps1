@@ -72,4 +72,4 @@ gh release create $Version "$dllPath" `
     --notes "$Description" `
 	--repo "$Repo"
 
-Write-Host "✅ Release $Version created successfully with attached DLLs."
+Write-Host "✅ Release $Version created successfully with attached DLL."
