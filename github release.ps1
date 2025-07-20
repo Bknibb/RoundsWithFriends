@@ -29,7 +29,7 @@ if ($csContent -match 'public\s+const\s+string\s+Version\s*=\s*"(?<csVersion>\d+
     $cleanInputVersion = $Version.TrimStart("v")
 
     if ($csVersion -ne $cleanInputVersion) {
-        Write-Error "❌ Version mismatch: script version is '$cleanInputVersion' but Unbound.cs has '$csVersion'"
+        Write-Error "❌ Version mismatch: script version is '$cleanInputVersion' but RoundsWithFriends.cs has '$csVersion'"
         exit 1
     }
 
