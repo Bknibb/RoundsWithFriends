@@ -63,7 +63,7 @@ namespace RWF
         private const string ModName = "Rounds With Friends";
         private static string CompatibilityModName => RWFMod.ModName.Replace(" ", "");
         private const string ModId = "io.olavim.rounds.rwf";
-        public const string Version = "3.0.2";
+        public const string Version = "3.0.3";
 
 #if DEBUG
         public static readonly bool DEBUG = true;
@@ -486,6 +486,7 @@ namespace RWF
                     }
                     charSelectionGroupGo.GetComponent<GoBack>().goBackEvent.AddListener(newCharSelectInstanceGo.GetComponent<CharacterSelectionInstance>().ResetMenu);
                 }
+                charSelectionGroupGo.GetComponent<GoBack>().goBackEvent.AddListener(charSelectionGroupGo.transform.GetComponentInParent<ListMenuPage>().Close);
             }
 
             if (!gameGo.transform.Find("PrivateRoom"))

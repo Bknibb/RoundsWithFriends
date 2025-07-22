@@ -195,6 +195,8 @@ namespace RWF.Patches
 
             ___buttons[0].GetComponent<Button>().onClick.Invoke();
 
+            ___counter = -0.1f;
+
             return false;
         }
     }
@@ -345,5 +347,4 @@ namespace RWF.Patches
             return false;
         }
     }
-
 }
