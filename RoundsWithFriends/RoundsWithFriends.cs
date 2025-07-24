@@ -63,7 +63,7 @@ namespace RWF
         private const string ModName = "Rounds With Friends";
         private static string CompatibilityModName => RWFMod.ModName.Replace(" ", "");
         private const string ModId = "io.olavim.rounds.rwf";
-        public const string Version = "3.0.3";
+        public const string Version = "3.0.4";
 
 #if DEBUG
         public static readonly bool DEBUG = true;
@@ -182,6 +182,12 @@ namespace RWF
 
         public void Awake()
         {
+            if (!Unbound.Loaded)
+            {
+                Debug.LogWarning("RoundsWithFriends was not loaded due to UnboundLib not being loaded!");
+                DestroyImmediate(this);
+                return;
+            }
             RWFMod.instance = this;
 
             try
