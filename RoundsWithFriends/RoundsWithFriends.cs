@@ -56,7 +56,7 @@ namespace RWF
         public bool showSpawns = false;
     }
 
-    [BepInDependency("com.willis.rounds.unbound", "4.0.0")]
+    [BepInDependency("com.willis.rounds.unbound", "4.0.5")]
     [BepInPlugin(ModId, "RoundsWithFriends", Version)]
     public class RWFMod : BaseUnityPlugin
     {
