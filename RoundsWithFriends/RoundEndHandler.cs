@@ -33,7 +33,7 @@ namespace RWF
 
             if (winnerTeam != null)
             {
-                UIHandler.instance.DisplayScreenText(PlayerManager.instance.GetColorFromTeam(winnerTeam.Value).winText, new UnityEngine.Localization.LocalizedString(null, "VICTORY!"), 1f);
+                UIHandler.instance.DisplayScreenText(PlayerManager.instance.GetColorFromTeam(winnerTeam.Value).winText, new UnityEngine.Localization.LocalizedString("RWF", "VICTORY!"), 1f);
 
                 yield return new WaitForSeconds(2f);
 
@@ -50,7 +50,7 @@ namespace RWF
                 else
                 {
                     string hostName = PhotonNetwork.CurrentRoom.Players.Values.First(p => p.IsMasterClient).NickName;
-                    UIHandler.instance.ShowJoinGameText(new UnityEngine.Localization.LocalizedString(null, $"WAITING FOR {hostName}"), PlayerSkinBank.GetPlayerSkinColors(1).winText);
+                    UIHandler.instance.ShowJoinGameText(new UnityEngine.Localization.LocalizedString("RWF", $"WAITING FOR {hostName}"), PlayerSkinBank.GetPlayerSkinColors(1).winText);
                 }
 
                 MapManager.instance.LoadNextLevel(false, false);

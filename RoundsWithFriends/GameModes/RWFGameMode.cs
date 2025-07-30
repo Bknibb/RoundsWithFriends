@@ -198,7 +198,7 @@ namespace RWF.GameModes
 
             GameManager.instance.battleOngoing = false;
 
-            UIHandler.instance.ShowJoinGameText(new UnityEngine.Localization.LocalizedString(null, "LETS GOO!"), PlayerSkinBank.GetPlayerSkinColors(1).winText);
+            UIHandler.instance.ShowJoinGameText(new UnityEngine.Localization.LocalizedString("RWF", "LETS GOO!"), PlayerSkinBank.GetPlayerSkinColors(1).winText);
             yield return new WaitForSecondsRealtime(0.25f);
             UIHandler.instance.HideJoinGameText();
 
@@ -458,7 +458,7 @@ namespace RWF.GameModes
             UIHandler.instance.ShowRoundCounterSmall(this.teamPoints, this.teamRounds);
             List<Color> colors = winningTeamIDs.Select(tID => PlayerManager.instance.GetPlayersInTeam(tID).First().GetTeamColors().color).ToList();
             Color color = AverageColor.Average(colors);
-            UIHandler.instance.DisplayScreenText(color, new UnityEngine.Localization.LocalizedString(null, "VICTORY!"), 1f);
+            UIHandler.instance.DisplayScreenText(color, new UnityEngine.Localization.LocalizedString("RWF", "VICTORY!"), 1f);
             yield return new WaitForSecondsRealtime(2f);
             this.GameOverRematch(winningTeamIDs);
             yield break;
@@ -473,7 +473,7 @@ namespace RWF.GameModes
             if (PhotonNetwork.OfflineMode)
             {
                 var winningPlayer = PlayerManager.instance.players.Find(p => winningTeamIDs.Contains(p.PlayerID));
-                UIHandler.instance.DisplayScreenTextLoop(winningPlayer.GetTeamColors().winText, new UnityEngine.Localization.LocalizedString(null, "REMATCH?"));
+                UIHandler.instance.DisplayScreenTextLoop(winningPlayer.GetTeamColors().winText, new UnityEngine.Localization.LocalizedString("RWF", "REMATCH?"));
                 UIHandler.instance.popUpHandler.StartPicking(winningPlayer, this.GetRematchYesNo);
                 MapManager.instance.LoadNextLevel(false, false);
                 return;
