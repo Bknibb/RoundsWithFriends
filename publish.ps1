@@ -60,23 +60,27 @@ if($Target.Equals("Release") -and $name.Equals("RoundsWithFriends")) {
 
     ((Get-Content -path "$thunder\manifest.json" -Raw) -replace "#VERSION#", "$Version") | Set-Content -Path "$thunder\manifest.json"
 
-    Remove-Item -Path "$package\Thunderstore\$name.$Version.zip" -Force
+    Remove-Item -Path "$package\Thunderstore\$name.*.zip" -Force
     Compress-Archive -Path "$thunder\*" -DestinationPath "$package\Thunderstore\$name.$Version.zip"
     $thunder.Delete($true)
+	
+	Write-Host "Uploading to Thunderstore"
+	$token = Get-Content "$(Get-Location)\thunderstore.token"
+	tcli publish --file "$package\Thunderstore\$name.$Version.zip" --token $token
 }
 
 # Release package for GitHub
 if($Target.Equals("Release") -and $name.Equals("RoundsWithFriends")) {
     $package = "$ProjectPath\release"
 
-    Write-Host "Packaging for GitHub"
+    <#Write-Host "Packaging for GitHub"
     $pkg = New-Item -Type Directory -Path "$package\package"
     $pkg.CreateSubdirectory('BepInEx\plugins')
     Copy-Item -Path "$TargetPath\$name.dll" -Destination "$pkg\BepInEx\plugins\$name.dll"
 
     Remove-Item -Path "$package\$name.$Version.zip" -Force
     Compress-Archive -Path "$pkg\*" -DestinationPath "$package\$name.$Version.zip"
-    $pkg.Delete($true)
+    $pkg.Delete($true)#>
 }
 
 Pop-Location

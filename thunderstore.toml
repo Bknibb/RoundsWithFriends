@@ -1,0 +1,12 @@
+[general]
+repository = "https://thunderstore.io"
+
+[package]
+namespace = "Bknibb"
+name = "RoundsWithFriends_Bknibb"
+
+[publish]
+communities = ["rounds"]
+
+[publish.categories]
+rounds = [ "client-side", "server-side", "gameplay" ]
