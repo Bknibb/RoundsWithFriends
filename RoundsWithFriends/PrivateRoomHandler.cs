@@ -774,6 +774,8 @@ namespace RWF
                 yield break; 
             }
 
+            LoadingScreen.instance?.hostRoomSystem?.Stop();
+
             this.lockReadies = true;
 
             // Tell all clients to create their players. The game begins once players have been created.
@@ -861,7 +863,8 @@ namespace RWF
 
         private IEnumerator CreatePlayerCoroutine(LobbyCharacter lobbyCharacter)
         {
-            this.MainPage.Close();
+            //this.MainPage.Close();
+            ListMenu.instance.CloseTopPage();
             MainMenuHandler.instance.Close();
 
             RWFMod.instance.SetSoundEnabled("PlayerAdded", false);
@@ -942,7 +945,7 @@ namespace RWF
                 // must be reverted to MostFront when leaving the lobby
                 this.gameObject.GetComponentInParent<Canvas>().sortingLayerName = "UI";
 
-                ListMenu.instance.OpenPage(this.MainPage);
+                //ListMenu.instance.OpenPage(this.MainPage);
                 this.MainPage.Open();
                 ArtHandler.instance.NextArt();
             });

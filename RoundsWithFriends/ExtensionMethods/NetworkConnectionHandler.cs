@@ -53,18 +53,25 @@ namespace RWF
 		    
             Action createRoomFn = () =>
             {
-                string text = string.Empty;
-                text += NetworkConnectionHandler.RegionToCode(PhotonNetwork.CloudRegion).ToString();
-                text += (string)instance.InvokeMethod("CreateRandomName", new object[] { 5, true} );
-                options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {
+                ((ClientSteamLobby) ExtensionMethods.GetStaticFieldValue(typeof(NetworkConnectionHandler), "m_SteamLobby")).CreateLobby(
+                    RWFMod.instance.MaxPlayers,
+                    (roomName) =>
                     {
-                        NetworkConnectionHandler.ROOM_CODE,
-                        text
+                        string text = string.Empty;
+                        text += NetworkConnectionHandler.RegionToCode(PhotonNetwork.CloudRegion).ToString();
+                        text += (string) instance.InvokeMethod("CreateRandomName", new object[] { 5, true });
+                        options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {
+                            {
+                                NetworkConnectionHandler.ROOM_CODE,
+                                text
+                            }
+                        };
+                        TypedLobby LOBBY_ROOMCODE = (TypedLobby) ExtensionMethods.GetStaticFieldValue(typeof(NetworkConnectionHandler), "LOBBY_ROOMCODE");
+                        PhotonNetwork.CreateRoom(text, options, LOBBY_ROOMCODE, null);
+                        LoadingScreen.instance.SetRoomCode(text);
                     }
-                };
-                TypedLobby LOBBY_ROOMCODE = (TypedLobby)ExtensionMethods.GetStaticFieldValue(typeof(NetworkConnectionHandler), "LOBBY_ROOMCODE");
-                PhotonNetwork.CreateRoom(text, options, LOBBY_ROOMCODE, null);
-                LoadingScreen.instance.SetRoomCode(text);
+                );
+                
             };
             instance.StartCoroutine((IEnumerator) instance.InvokeMethod("DoActionWhenConnected", createRoomFn));
         }

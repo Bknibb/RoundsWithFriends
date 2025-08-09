@@ -59,7 +59,6 @@ namespace RWF.Patches
     {
         static bool Prefix(NetworkConnectionHandler __instance) {
             // Disable loading screen in private matches
-            if (__instance.GetSearchingType() == NetworkConnectionHandlerExtensions.SearchingType.HostRoom) LoadingScreen.instance?.hostRoomSystem?.Stop();
             return __instance.GetSearchingType() != NetworkConnectionHandlerExtensions.SearchingType.None && __instance.GetSearchingType() != NetworkConnectionHandlerExtensions.SearchingType.HostRoom;
         }
     }
