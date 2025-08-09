@@ -2,6 +2,7 @@
 using Landfall.Network;
 using Photon.Pun;
 using Photon.Realtime;
+using Steamworks;
 using System;
 using System.Collections;
 using System.Reflection;
@@ -53,7 +54,8 @@ namespace RWF
 		    
             Action createRoomFn = () =>
             {
-                ((ClientSteamLobby) ExtensionMethods.GetStaticFieldValue(typeof(NetworkConnectionHandler), "m_SteamLobby")).CreateLobby(
+                ClientSteamLobby lobby = (ClientSteamLobby) ExtensionMethods.GetStaticFieldValue(typeof(NetworkConnectionHandler), "m_SteamLobby");
+                lobby.CreateLobby(
                     RWFMod.instance.MaxPlayers,
                     (roomName) =>
                     {
@@ -68,6 +70,7 @@ namespace RWF
                         };
                         TypedLobby LOBBY_ROOMCODE = (TypedLobby) ExtensionMethods.GetStaticFieldValue(typeof(NetworkConnectionHandler), "LOBBY_ROOMCODE");
                         PhotonNetwork.CreateRoom(text, options, LOBBY_ROOMCODE, null);
+                        SteamMatchmaking.SetLobbyData(lobby.CurrentLobby, "RoomCode", text);
                         LoadingScreen.instance.SetRoomCode(text);
                     }
                 );
