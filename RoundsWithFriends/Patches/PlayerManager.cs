@@ -234,6 +234,27 @@ namespace RWF.Patches
             return codes.AsEnumerable();
         }
     }
+    [HarmonyPatch(typeof(PlayerManager), "RegisterPlayer")]
+    class PlayerManager_Patch_RegisterPlayer
+    {
+        static bool Prefix(Player player, int forceIndex)
+        {
+            //if (forceIndex != -1)
+            //{
+            //    PlayerManager.instance.players.Insert(forceIndex, player);
+            //}
+            //else
+            //{
+            //    PlayerManager.instance.players.Add(player);
+            //}
+            PlayerManager.instance.players.Add(player);
+            if ((bool)PlayerManager.instance.GetFieldValue("playersShouldBeActive"))
+            {
+                player.data.isPlaying = true;
+            }
+            return false;
+        }
+    }
 
     [HarmonyPatch(typeof(PlayerManager), "MovePlayers")]
     class PlayerManager_Patch_MovePlayers

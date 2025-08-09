@@ -17,37 +17,29 @@ namespace RWF
     {
         public static IEnumerator CreatePlayer(this PlayerAssigner instance, LobbyCharacter character, InputDevice inputDevice)
         {
-            if ((bool)instance.GetFieldValue("waitingForRegisterResponse"))
-            {
-                yield break;
-            }
             if (instance.players.Count < instance.maxPlayers)
             {
-                if (!PhotonNetwork.OfflineMode && !PhotonNetwork.IsMasterClient)
-                {
-                    instance.GetComponent<PhotonView>().RPC("RPCM_RequestTeamAndPlayerID", RpcTarget.MasterClient, new object[]
-                    {
-                        PhotonNetwork.LocalPlayer.ActorNumber
-                    });
-                    instance.SetFieldValue("waitingForRegisterResponse", true);
-                }
-                while ((bool)instance.GetFieldValue("waitingForRegisterResponse"))
-                {
-                    yield return null;
-                }
-                if (!PhotonNetwork.OfflineMode)
-                {
-                    if (PhotonNetwork.IsMasterClient)
-                    {
-                        instance.SetFieldValue("playerIDToSet", PlayerManager.instance.players.Count);
-                        instance.SetFieldValue("teamIDToSet", character.teamID);
-                    }
-                }
-                else
-                {
-                    instance.SetFieldValue("playerIDToSet", PlayerManager.instance.players.Count);
-                    instance.SetFieldValue("teamIDToSet", character.teamID);
-                }
+                //if (!PhotonNetwork.OfflineMode && !PhotonNetwork.IsMasterClient)
+                //{
+                //    instance.GetComponent<PhotonView>().RPC("RPCM_RequestTeamAndPlayerID", RpcTarget.MasterClient, new object[]
+                //    {
+                //        PhotonNetwork.LocalPlayer.ActorNumber
+                //    });
+                //}
+                //if (!PhotonNetwork.OfflineMode)
+                //{
+                //    if (PhotonNetwork.IsMasterClient)
+                //    {
+                //        instance.SetFieldValue("m_playerId", PlayerManager.instance.players.Count);
+                //        //instance.SetFieldValue("teamIDToSet", character.teamID);
+                //    }
+                //}
+                //else
+                //{
+                //    instance.SetFieldValue("m_playerId", PlayerManager.instance.players.Count);
+                //    //instance.SetFieldValue("teamIDToSet", character.teamID);
+                //}
+                instance.SetFieldValue("m_playerId", PlayerManager.instance.players.Count);
                 SoundPlayerStatic.Instance.PlayPlayerAdded();
                 Vector3 position = Vector3.up * 100f;
                 CharacterData component = PhotonNetwork.Instantiate(instance.playerPrefab.name, position, Quaternion.identity, 0, null).GetComponent<CharacterData>();
@@ -68,7 +60,7 @@ namespace RWF
                 PlayerManager.RegisterPlayer(component.player);
                 //component.player.AssignCharacter(character, (int)instance.GetFieldValue("playerIDToSet"));
                 // assign character
-                yield return SyncMethodStatic.SyncMethod(typeof(PlayerAssignerExtensions), nameof(PlayerAssignerExtensions.RPCA_AssignCharacter), null, component.view.ViewID, character, (int) instance.GetFieldValue("playerIDToSet"));
+                yield return SyncMethodStatic.SyncMethod(typeof(PlayerAssignerExtensions), nameof(PlayerAssignerExtensions.RPCA_AssignCharacter), null, component.view.ViewID, character, (int) instance.GetFieldValue("m_playerId"));
 
                 yield break;
             }

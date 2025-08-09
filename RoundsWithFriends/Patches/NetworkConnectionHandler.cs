@@ -9,6 +9,7 @@ using System.Reflection.Emit;
 using Landfall.Network;
 using SoundImplementation;
 using UnboundLib;
+using UnityEngine;
 
 namespace RWF.Patches
 {
@@ -58,7 +59,8 @@ namespace RWF.Patches
     {
         static bool Prefix(NetworkConnectionHandler __instance) {
             // Disable loading screen in private matches
-            return __instance.IsSearchingQuickMatch() || __instance.IsSearchingTwitch();
+            if (__instance.GetSearchingType() == NetworkConnectionHandlerExtensions.SearchingType.HostRoom) LoadingScreen.instance?.hostRoomSystem?.Stop();
+            return __instance.GetSearchingType() != NetworkConnectionHandlerExtensions.SearchingType.None && __instance.GetSearchingType() != NetworkConnectionHandlerExtensions.SearchingType.HostRoom;
         }
     }
 
@@ -111,11 +113,33 @@ namespace RWF.Patches
         }
     }
 
+    // NetworkConnectionHandler::ForceRegionJoin is called when joining a private lobby with a room code
+    [HarmonyPatch(typeof(NetworkConnectionHandler), "JoinRoom")]
+    class NetworkConnectionHandler_Patch_JoinRoom
+    {
+        static bool Prefix(NetworkConnectionHandler __instance, string roomName)
+        {
+            __instance.SetForceRegion(true);
+            RegionSelector.region = NetworkConnectionHandler.CodeToRegion(roomName[0]);
+
+            Action joinSpecificRoomDelegate = () =>
+            {
+                CharacterCreatorHandler.instance.CloseMenus();
+                PrivateRoomHandler.instance.Open();
+                __instance.InvokeMethod("JoinSpecificRoom", roomName);
+            };
+            __instance.StartCoroutine((IEnumerator) __instance.InvokeMethod("DoActionWhenConnected", joinSpecificRoomDelegate));
+
+            // We'll replace the whole method
+            return false;
+        }
+    }
+
     [HarmonyPatch(typeof(NetworkConnectionHandler), "OnPlayerLeftRoom")]
     class NetworkConnectionHandler_Patch_OnPlayerLeftRoom
     {
         static bool Prefix(NetworkConnectionHandler __instance) {
-            if (__instance.IsSearchingQuickMatch() || __instance.IsSearchingTwitch()) {
+            if (__instance.GetSearchingType() != NetworkConnectionHandlerExtensions.SearchingType.None && __instance.GetSearchingType() != NetworkConnectionHandlerExtensions.SearchingType.HostRoom) {
                 return true;
             }
 
@@ -124,12 +148,23 @@ namespace RWF.Patches
         }
     }
 
+    [HarmonyPatch(typeof(NetworkConnectionHandler), "Update")]
+    class NetworkConnectionHandler_Patch_Update
+    {
+        static bool Prefix(NetworkConnectionHandler __instance) {
+            if (__instance.GetSearchingType() == NetworkConnectionHandlerExtensions.SearchingType.None) {
+                return false;
+            }
+            return true;
+        }
+    }
+
     [HarmonyPatch(typeof(NetworkConnectionHandler), "OnPlayerEnteredRoom")]
     class NetworkConnectionHandler_Patch_OnPlayerEnteredRoom
     {
         static bool Prefix(NetworkConnectionHandler __instance) {
             // When playing in a private match, we want to pretty much ignore this function since we handle player joins in PrivateRoomHandler
-            if (!__instance.IsSearchingQuickMatch() && !__instance.IsSearchingTwitch()) {
+            if (__instance.GetSearchingType() == NetworkConnectionHandlerExtensions.SearchingType.HostRoom || __instance.GetSearchingType() == NetworkConnectionHandlerExtensions.SearchingType.None) {
                 SoundPlayerStatic.Instance.PlayPlayerAdded();
 
                 if (PhotonNetwork.IsMasterClient) {

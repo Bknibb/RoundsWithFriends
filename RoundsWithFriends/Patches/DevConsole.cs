@@ -17,6 +17,12 @@ namespace RWF.Patches
                     return false;
                 }
             }
+            if (MainMenuHandler.instance.isOpen)
+            {
+                MainMenuHandler.instance.Close();
+                NetworkConnectionHandler.instance.JoinRoom(message.ToUpper());
+                return false;
+            }
 
             return true;
         }

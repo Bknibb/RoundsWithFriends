@@ -6,21 +6,31 @@ using System;
 using System.Collections;
 using System.Reflection;
 using UnboundLib;
+using UnityEngine;
 
 namespace RWF
 {
     public static class NetworkConnectionHandlerExtensions
     {
-        public static void SetSearchingQuickMatch(this NetworkConnectionHandler instance, bool value) {
-            instance.SetFieldValue("m_searchingType", value ? 1 : 0);
+        public enum SearchingType
+        {
+            // Token: 0x04000EF4 RID: 3828
+            None,
+            // Token: 0x04000EF5 RID: 3829
+            Quickmatch,
+            // Token: 0x04000EF6 RID: 3830
+            HostRoom,
+            // Token: 0x04000EF7 RID: 3831
+            FriendInvite,
+            // Token: 0x04000EF8 RID: 3832
+            Twitch
         }
-
-        public static bool IsSearchingQuickMatch(this NetworkConnectionHandler instance) {
-            return (int)instance.GetFieldValue("m_searchingType") == 1;
+        public static SearchingType GetSearchingType(this NetworkConnectionHandler instance) {
+            return (SearchingType)instance.GetFieldValue("m_searchingType");
         }
-
-        public static void SetSearchingTwitch(this NetworkConnectionHandler instance, bool value) {
-            instance.SetFieldValue("m_searchingType", value ? 4 : 0);
+        public static void SetSearchingType(this NetworkConnectionHandler instance, SearchingType searchingType)
+        {
+            instance.SetFieldValue("m_searchingType", (int) searchingType);
         }
 
         public static bool IsSearchingTwitch(this NetworkConnectionHandler instance) {
@@ -32,21 +42,20 @@ namespace RWF
         }
 
         public static void HostPrivate(this NetworkConnectionHandler instance) {
-            instance.SetSearchingQuickMatch(false);
-            instance.SetSearchingTwitch(false);
+            instance.SetSearchingType(SearchingType.HostRoom);
 
             TimeHandler.instance.gameStartTime = 1f;
             RoomOptions options = new RoomOptions();
             options.MaxPlayers = (byte) RWFMod.instance.MaxPlayers;
             options.IsOpen = true;
-            options.IsVisible = false;
+            options.IsVisible = true;
             options.CustomRoomPropertiesForLobby = new string[] { NetworkConnectionHandler.ROOM_CODE };
 		    
             Action createRoomFn = () =>
             {
                 string text = string.Empty;
                 text += NetworkConnectionHandler.RegionToCode(PhotonNetwork.CloudRegion).ToString();
-                text += instance.InvokeMethod("CreateRandomName", new object[] { 5, true} );
+                text += (string)instance.InvokeMethod("CreateRandomName", new object[] { 5, true} );
                 options.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable() {
                     {
                         NetworkConnectionHandler.ROOM_CODE,

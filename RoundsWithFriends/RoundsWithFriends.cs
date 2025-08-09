@@ -63,7 +63,7 @@ namespace RWF
         private const string ModName = "Rounds With Friends";
         private static string CompatibilityModName => RWFMod.ModName.Replace(" ", "");
         private const string ModId = "io.olavim.rounds.rwf";
-        public const string Version = "3.0.6";
+        public const string Version = "3.0.7";
 
 #if DEBUG
         public static readonly bool DEBUG = true;
@@ -505,6 +505,8 @@ namespace RWF
 
                 var inviteFriendGo = mainMenuGo.transform.Find("ListSelector").Find("Online").Find("Group").Find("Invite friend").gameObject;
                 GameObject.DestroyImmediate(inviteFriendGo.GetComponent<Button>());
+                var hostRoomGo = mainMenuGo.transform.Find("ListSelector").Find("Online").Find("Group").Find("Host Room").gameObject;
+                GameObject.DestroyImmediate(hostRoomGo);
                 var button = inviteFriendGo.AddComponent<Button>();
 
                 button.onClick.AddListener(() =>
@@ -552,7 +554,6 @@ namespace RWF
                 popupGo.transform.localScale = Vector3.one;
                 popupGo.AddComponent<UI.PopUpMenu>();
             }
-
         }
         public IEnumerator InjectKeybindsWhenReady()
         {
