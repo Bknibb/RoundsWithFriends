@@ -20,10 +20,6 @@ Deathmatch follows the heart of the original team deathmatch game mode, but now 
 
 After the game ends, you can choose to play a little longer, or to start a new game.
 
-## Changelog
-
-See [CHANGELOG.md](https://github.com/olavim/RoundsWithFriends/blob/main/CHANGELOG.md) for version changes.
-
 ## Dependencies
 
 - [BepInEx](https://docs.bepinex.dev/master/articles/index.html) plugin framework
@@ -45,8 +41,8 @@ You can download the latest release directly from [BepInEx/releases](https://git
 
 #### 2. Download **UnboundLib**.
 
-Download the [latest release](https://github.com/Rounds-Modding/UnboundLib/releases/latest) of **[UnboundLib](https://github.com/Rounds-Modding/UnboundLib)** and extract the downloaded dll files to `ROUNDS/BepInEx/plugins`.
+Download the [latest release](https://github.com/Bknibb/UnboundLib/releases/latest) of **[UnboundLib](https://github.com/Bknibb/UnboundLib)** and extract the downloaded dll files to `ROUNDS/BepInEx/plugins`.
 
 #### 3. Download **RoundsWithFriends**.
 
-Download the [latest release](https://github.com/olavim/RoundsWithFriends/releases/latest) of **Rounds With Friends** and extract the downloaded zip file to the install directory of ROUNDS.
+Download the [latest release](https://github.com/Bknibb/RoundsWithFriends/releases/latest) of **Rounds With Friends** and extract the downloaded zip file to the install directory of ROUNDS.
